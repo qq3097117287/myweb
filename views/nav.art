@@ -1,0 +1,14 @@
+<div style="background:#2385bb;padding:15px;color:#fff;display:flex;gap:30px;align-items:center;">
+    <h3>图书管理系统</h3>
+    <a href="/index" style="color:#fff;text-decoration:none">首页</a>
+    {{if user.role==='admin'}}
+    <a href="/bookList" style="color:#fff;text-decoration:none">图书管理</a>
+    <a href="/readerList" style="color:#fff;text-decoration:none">读者管理</a>
+    <a href="/borrowList" style="color:#fff;text-decoration:none">借阅管理</a>
+    {{/if}}
+    {{if user.role==='reader'}}
+    <a href="/bookList" style="color:#fff;text-decoration:none">图书浏览</a>
+    <a href="/myborrow" style="color:#fff;text-decoration:none">我的借阅</a>
+    {{/if}}
+    <div style="margin-left:auto">欢迎：{{user.username}} <a href="/logout" style="color:#fff;margin-left:20px">退出登录</a></div>
+</div>

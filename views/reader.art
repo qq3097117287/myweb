@@ -1,0 +1,29 @@
+{{include './nav.art'}}
+<div style="width:90%;margin:20px auto">
+    <form action="/readerList" method="get" style="margin:15px 0;">
+        <input value="{{keyword}}" placeholder="输入读者姓名搜索" name="key" style="padding:6px;width:300px">
+        <button type="submit" style="padding:6px 15px;background:#2385bb;color:#fff;border:none">搜索</button>
+        <a href="/addReader"><button type="button" style="padding:6px 15px;background:green;color:#fff;border:none;margin-left:10px">新增读者</button></a>
+    </form>
+
+    <table border="1" width="100%" cellpadding="8">
+        <tr><th>ID</th><th>姓名</th><th>电话</th><th>操作</th></tr>
+        {{each list item}}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.rname}}</td>
+            <td>{{item.phone}}</td>
+            <td>
+                <a href="/editReader?id={{item.id}}">编辑</a>
+                <a href="/delReader?id={{item.id}}" onclick="return confirm('确定删除？')">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <div style="margin-top:15px">
+        {{if page>1}}<a href="/readerList?page={{page-1}}&key={{keyword}}">上一页</a>{{/if}}
+        <span>第{{page}}/{{totalPage||1}}页</span>
+        {{if page<totalPage}}<a href="/readerList?page={{page+1}}&key={{keyword}}">下一页</a>{{/if}}
+    </div>
+</div>
