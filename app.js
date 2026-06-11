@@ -1,12 +1,11 @@
 const express = require('express')
-const mysql = require('mysql')
 const session = require('express-session')
 const app = express()
 const port = 3000
 
 // session配置
 app.use(session({
-    secret: 'bookadmin123',
+    secret: process.env.SESSION_SECRET || 'library-session-secret',
     resave: false,
     saveUninitialized: false
 }))
@@ -28,13 +27,7 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 
 // 数据库连接
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'db_library'
-})
-db.connect()
+const db = require('./db');
 
 // ==========================================
 // 登录

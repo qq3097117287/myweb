@@ -4,7 +4,6 @@ const db = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,  // 这里已经改成你的密码
     database: process.env.DB_DATABASE,
-    // 关键：添加以下 SSL 配置
     ssl: {
         rejectUnauthorized: true
     }
