@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧图书管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{background: linear-gradient(-45deg,#f0f5ff,#e6f0ff);min-height:100vh;}
+        .panel{margin-top:40px;transition:0.3s all;}
+        .panel:hover{transform:translateY(-8px);box-shadow:0 8px 24px #b4c9e8;}
+
+        /* 弹窗动画：从下往上滑入 */
+        .modal-box{
+            position:fixed;top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,0.4);z-index:9999;
+            display:none;
+        }
+        .modal-content{
+            width:420px;background:#fff;margin:0 auto;
+            padding:30px;border-radius:10px;text-align:center;
+            transform: translateY(100vh);
+            transition: all 0.5s cubic-bezier(0.25,0.1,0.25,1);
+        }
+        .modal-content.show{
+            transform: translateY(160px);
+        }
+    </style>
+</head>
+<body>
+<!--顶部导航栏-->
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">📚图书管理系统</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/">首页</a></li>
+            <li><a href="/bookList">图书管理</a></li>
+            <li><a href="/readerList">读者管理</a></li>
+            <li><a href="/borrowList">借阅管理</a></li>
+        </ul>
+        <div class="navbar-right" style="padding-top:13px;color:#fff;">
+            <span>欢迎：<%=adminName%></span>
+            <a href="/logout" class="text-warning" style="margin-left:15px;">【退出登录】</a>
+            <span id="nowTime" style="margin-left:20px;"></span>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3>图书总数：<%=bookTotal%></h3></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading"><h3>在册读者：<%=readerTotal%></h3></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-danger">
+                <div class="panel-heading"><h3>在借图书：<%=borrowTotal%></h3></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 欢迎弹窗（下滑动画 + 10分钟免弹窗） -->
+<div id="modal" class="modal-box">
+    <div id="modalContent" class="modal-content">
+        <h3>🎉欢迎进入智慧图书管理系统</h3>
+        <p>今日：<%=new Date().getFullYear()%>年<%=new Date().getMonth()+1%>月<%=new Date().getDate()%>日</p>
+        <hr>
+        <div style="display:flex;gap:10px;justify-content:center;">
+            <button onclick="closeModal()" class="btn btn-primary">确定</button>
+            <button onclick="closeModalTenMin()" class="btn btn-default">10分钟内不再弹出</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// 实时时钟
+function showTime(){
+    let wk=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    let d=new Date();
+    let y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds();
+    document.getElementById('nowTime').innerText=`${y}-${m}-${day} ${h}:${mi}:${s} ${wk[d.getDay()]}`;
+}
+showTime();
+setInterval(showTime,1000);
+
+// 弹窗逻辑
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modalContent');
+const TEN_MIN = 600000; //10分钟毫秒
+
+window.onload = function(){
+    let hideEndTime = localStorage.getItem('hideModalEnd');
+    let now = Date.now();
+    // 判断是否还在10分钟冷却期
+    if(hideEndTime && now < Number(hideEndTime)){
+        return; //冷却中不弹出
+    }else{
+        //过期清除存储
+        localStorage.removeItem('hideModalEnd');
+        modal.style.display = 'block';
+        setTimeout(() => {
+            modalContent.classList.add('show');
+        }, 50);
+    }
+}
+
+// 普通关闭弹窗
+function closeModal(){
+    modalContent.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 500);
+}
+
+// 关闭+设置10分钟不再弹出
+function closeModalTenMin(){
+    let endTime = Date.now() + TEN_MIN;
+    localStorage.setItem('hideModalEnd', endTime);
+    closeModal();
+}
+</script>
+</body>
+</html>

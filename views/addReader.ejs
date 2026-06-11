@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>新增读者</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+            min-height: 100vh;
+        }
+        .form-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(41, 121, 255, 0.1);
+            margin-top: 30px;
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #1c3b70 0%, #2979ff 100%) !important;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/adminIndex">
+            <i class="bi bi-book-half"></i> 📚 智慧图书管理系统
+        </a>
+        <div class="d-flex align-items-center text-white">
+            <span><i class="bi bi-person-check"></i> 欢迎：<%=user.username%>【管理员】</span>
+            <a href="/logout" class="btn btn-outline-light btn-sm ms-3">
+                <i class="bi bi-box-arrow-right"></i> 退出
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="/readerList" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> 返回读者列表
+                    </a>
+                    <h4 class="mb-0"><i class="bi bi-person-plus"></i> 新增读者</h4>
+                </div>
+
+                <form action="/addReader" method="get">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">读者姓名 <span class="text-danger">*</span></label>
+                            <input type="text" name="read_name" class="form-control" required placeholder="请输入读者姓名">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">学号/工号</label>
+                            <input type="text" name="student_id" class="form-control" placeholder="请输入学号或工号">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">电话</label>
+                            <input type="text" name="phone" class="form-control" placeholder="请输入联系电话">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">邮箱</label>
+                            <input type="email" name="email" class="form-control" placeholder="请输入邮箱地址">
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> 提交保存
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="bi bi-arrow-counterclockwise"></i> 重置
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

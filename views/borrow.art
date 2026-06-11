@@ -1,0 +1,32 @@
+{{include './nav.art'}}
+<div style="width:90%;margin:20px auto">
+    <form action="/borrowList" method="get" style="margin:15px 0;">
+        <input value="{{keyword}}" placeholder="书名/读者姓名搜索" name="key" style="padding:6px;width:300px">
+        <button type="submit" style="padding:6px 15px;background:#2385bb;color:#fff;border:none">搜索</button>
+        <a href="/addBorrow"><button type="button" style="padding:6px 15px;background:green;color:#fff;border:none;margin-left:10px">新增借阅</button></a>
+    </form>
+
+    <table border="1" width="100%" cellpadding="8">
+        <tr><th>借阅ID</th><th>图书名</th><th>读者</th><th>借书日期</th><th>还书日期</th><th>操作</th></tr>
+        {{each list item}}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.bookname}}</td>
+            <td>{{item.rname}}</td>
+            <td>{{item.borrow_date}}</td>
+            <td>{{item.return_date||'未归还'}}</td>
+            <td>
+                {{if !item.return_date}}
+                <a href="/returnBook?id={{item.id}}">归还图书</a>
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+
+    <div style="margin-top:15px">
+        {{if page>1}}<a href="/borrowList?page={{page-1}}&key={{keyword}}">上一页</a>{{/if}}
+        <span>第{{page}}/{{totalPage||1}}页</span>
+        {{if page<totalPage}}<a href="/borrowList?page={{page+1}}&key={{keyword}}">下一页</a>{{/if}}
+    </div>
+</div>
